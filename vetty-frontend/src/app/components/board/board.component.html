@@ -1,0 +1,122 @@
+<div class="board-container">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Design team</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" routerLink="/board">Roadmap</a>
+      <a class="nav-item active" routerLink="/board">Board</a>
+      <a class="nav-item" routerLink="/board">Add item</a>
+      <a class="nav-item" routerLink="/board">Project settings</a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="board-header">
+      <h1 class="board-title">✨ Jira board (Vetty) ✨</h1>
+      <button class="logout-button" (click)="logout()">Logout</button>
+    </div>
+
+    <div class="board-columns">
+      <div class="column">
+        <h3 class="column-title">To Do</h3>
+        <div
+          id="todo-list"
+          cdkDropList
+          [cdkDropListData]="todoTasks"
+          (cdkDropListDropped)="drop($event)"
+          class="task-list">
+          <div
+            *ngFor="let task of todoTasks"
+            cdkDrag
+            class="task-card">
+            <div class="task-content">
+              <div class="task-title">{{ task.title }}</div>
+              <div class="task-id">{{ task.id }}</div>
+            </div>
+          </div>
+          <button class="add-task-button" (click)="openAddTaskModal(TaskStatus.TODO)">
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="column">
+        <h3 class="column-title">In Progress</h3>
+        <div
+          id="in-progress-list"
+          cdkDropList
+          [cdkDropListData]="inProgressTasks"
+          (cdkDropListDropped)="drop($event)"
+          class="task-list">
+          <div
+            *ngFor="let task of inProgressTasks"
+            cdkDrag
+            class="task-card">
+            <div class="task-content">
+              <div class="task-title">{{ task.title }}</div>
+              <div class="task-id">{{ task.id }}</div>
+            </div>
+          </div>
+          <button class="add-task-button" (click)="openAddTaskModal(TaskStatus.IN_PROGRESS)">
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="column">
+        <h3 class="column-title">Need Review</h3>
+        <div
+          id="need-review-list"
+          cdkDropList
+          [cdkDropListData]="needReviewTasks"
+          (cdkDropListDropped)="drop($event)"
+          class="task-list">
+          <div
+            *ngFor="let task of needReviewTasks"
+            cdkDrag
+            class="task-card">
+            <div class="task-content">
+              <div class="task-title">{{ task.title }}</div>
+              <div class="task-id">{{ task.id }}</div>
+            </div>
+          </div>
+          <button class="add-task-button" (click)="openAddTaskModal(TaskStatus.NEED_REVIEW)">
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="column">
+        <h3 class="column-title">Completed</h3>
+        <div
+          id="completed-list"
+          cdkDropList
+          [cdkDropListData]="completedTasks"
+          (cdkDropListDropped)="drop($event)"
+          class="task-list">
+          <div
+            *ngFor="let task of completedTasks"
+            cdkDrag
+            class="task-card">
+            <div class="task-content">
+              <div class="task-title">{{ task.title }}</div>
+              <div class="task-id">{{ task.id }}</div>
+            </div>
+          </div>
+          <button class="add-task-button" (click)="openAddTaskModal(TaskStatus.COMPLETED)">
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-task-modal
+  *ngIf="showModal"
+  [selectedColumn]="selectedColumn"
+  (close)="closeModal()"
+  (taskAdded)="onTaskAdded($event)">
+</app-task-modal>
+
